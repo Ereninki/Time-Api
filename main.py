@@ -51,6 +51,10 @@ async def get_timezone_date(timezone: str, api_key: str):
     year = str(year_all)[2:5]
     return {"month": str(month), "day": str(day), "year": year}
 
+@app.get("/")
+async def health():
+    return {"health": "OK"}
+
 
 if __name__ == "__main__":
     uvicorn.run(app)
