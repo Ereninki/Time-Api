@@ -18,7 +18,7 @@ app.add_middleware(
 @app.get("/api/v1/time")
 async def get_timezone_details(timezone: str, api_key: str):
     if api_key != os.getenv("TIME_API_KEY"):
-        raise HTTPException(status_code=403, detail="sorry but i cant recognise your api key..")
+        raise HTTPException(status_code=403, detail="sorry but i cant recognize your api key..")
 
     try:
         timezone_now = ZoneInfo(timezone)
@@ -34,6 +34,22 @@ async def get_timezone_details(timezone: str, api_key: str):
 
     return {"hour": hour, "minute": minute, "day_of_the_year": which_day_of_year}
 
+@app.get("/api/v1/date")
+async def get_timezone_date(timezone: str, api_key: str):
+    if api_key != os.getenv("TIME_API_KEY"):
+        raise HTTPException(status_code=403, detail="sorry but i cant recognize your api key..")
+
+    try:
+        timezone_now = ZoneInfo(timezone)
+    except ZoneInfoNotFoundError:
+        raise HTTPException(400, detail="sorry but the timezone you inserted isnt right.. pls check it again!")
+
+    now = datetime.now(timezone_now)
+    month = now.month
+    day = now.day
+    year_all = now.year
+    year = str(year_all)[2:5]
+    return {"month": str(month), "day": str(day), "year": year}
 
 
 if __name__ == "__main__":
