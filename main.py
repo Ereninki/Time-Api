@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from datetime import datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 app = FastAPI()
 app.add_middleware(
@@ -18,8 +19,14 @@ app.add_middleware(
 async def get_timezone_details(timezone: str, api_key: str):
     if api_key != os.getenv("TIME_API_KEY"):
         raise HTTPException(status_code=403, detail="sorry but i cant recognise your api key..")
-    now = datetime.now(timezone)
 
+    try:
+        timezone_now = ZoneInfo(timezone)
+    except ZoneInfoNotFoundError:
+        raise HTTPException(400, detail="sorry but the timezone you inserted isnt right.. pls check it again!")
+
+
+    now = datetime.now(timezone_now)
     which_day_of_year = now.timetuple().tm_yday
 
     hour = now.hour
