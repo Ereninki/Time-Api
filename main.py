@@ -1,6 +1,33 @@
-def main():
-    print("Hello from time-api!")
+from dotenv import load_dotenv
+import os
+load_dotenv()
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+from datetime import datetime
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_headers=["*"],
+    allow_methods=["*"]
+)
+
+@app.get("/api/v1/time")
+async def get_timezone_details(timezone: str, api_key: str):
+    if api_key != os.getenv("TIME_API_KEY"):
+        raise HTTPException(status_code=403, detail="sorry but i cant recognise your api key..")
+    now = datetime.now(timezone)
+
+    which_day_of_year = now.timetuple().tm_yday
+
+    hour = now.hour
+    minute = now.minute
+
+    return {"hour": hour, "minute": minute, "day_of_the_year": which_day_of_year}
+
 
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app)
