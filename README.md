@@ -10,8 +10,8 @@ For **timezone** you just type smth like **Europe/Amsterdam** or **Europe/Istanb
 For **api_key** you need set it **yourself**, just open **.env.example** put a password there (it could be anything) and change file name to **.env** and thats it. Now when youre making a request to **/api/v1/time** or **/api/v1/date** you just put your timezone and your api_key!!
 
 **Examples:**
-`https://time-api.ereninki.hackclub.app/api/v1/time?timezone=Europe/Istanbul&api_key=<api key>`
-`https://time-api.ereninki.hackclub.app/api/v1/date?timezone=Europe/Istanbul&api_key=<api key>`
+`https://time-api.ereninki.dino.icu/api/v1/time?timezone=Europe/Istanbul&api_key=<api key>`
+`https://time-api.ereninki.dino.icu/api/v1/date?timezone=Europe/Istanbul&api_key=<api key>`
 
 ---
 
